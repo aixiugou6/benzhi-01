@@ -117,6 +117,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+                    <!-- 单元测试(*Test)与集成测试(*IT，需真实 Redis)都在 test 阶段一把跑完 -->
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*IT.java</include>
+                    </includes>
                     <!-- Flink 在 JDK17 内嵌运行需要的模块开放 -->
                     <argLine>
                         --add-opens=java.base/java.lang=ALL-UNNAMED

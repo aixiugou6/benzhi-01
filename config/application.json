@@ -1,0 +1,13 @@
+{
+  "redisHost": "127.0.0.1",
+  "redisPort": 6379,
+  "redisPassword": null,
+  "redisDatabase": 0,
+  "transactionStream": "risk.transactions",
+  "decisionStream": "risk.decisions",
+  "consumerGroup": "risk-engine",
+  "rulesFile": "config/rules.json",
+  "rulesReloadSeconds": 5,
+  "parallelism": 1,
+  "decisionStreamMaxLen": 1000000
+}

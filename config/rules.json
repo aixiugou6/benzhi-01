@@ -1,0 +1,41 @@
+{
+  "version": "rules-001",
+  "windows": [
+    { "alias": "w1", "keyBy": "cardNo", "windowMs": 60000 },
+    { "alias": "w2", "keyBy": "cardNo", "windowMs": 3600000 }
+  ],
+  "rules": [
+    {
+      "id": "single_amount_limit",
+      "enabled": true,
+      "priority": 5,
+      "reasonCode": "R_AMOUNT_EXCEEDED",
+      "description": "拦截，原因：单笔金额异常（>=50000）",
+      "condition": "$amount >= 50000"
+    },
+    {
+      "id": "withdraw_burst",
+      "enabled": true,
+      "priority": 8,
+      "reasonCode": "R_HIGH_FREQUENCY",
+      "description": "拦截，原因：取现短时高频（1 分钟内 >=3 笔取现）",
+      "condition": "$txnType == 'WITHDRAW' AND count(w1) >= 3"
+    },
+    {
+      "id": "high_freq_1m_5",
+      "enabled": true,
+      "priority": 10,
+      "reasonCode": "R_HIGH_FREQUENCY",
+      "description": "拦截，原因：短时高频（同卡 1 分钟内 >=5 笔）",
+      "condition": "count(w1) >= 5"
+    },
+    {
+      "id": "window_amount_1h",
+      "enabled": true,
+      "priority": 20,
+      "reasonCode": "R_WINDOW_AMOUNT_EXCEEDED",
+      "description": "拦截，原因：窗口期累计金额异常（同卡 1 小时累计 >=100000）",
+      "condition": "sum(w2) >= 100000"
+    }
+  ]
+}
